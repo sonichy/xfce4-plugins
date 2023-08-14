@@ -404,7 +404,7 @@ static SamplePlugin *sample_new (XfcePanelPlugin *plugin)
   gtk_box_pack_start (GTK_BOX (sample->hvbox), sample->progress_mem, FALSE, FALSE, 0);
   
   //sample->label = gtk_label_new ("00:00:00");
-  sample->label = gtk_button_new_with_label ("↑    0KB /s\n↓   0 KB/s");
+  sample->label = gtk_button_new_with_label ("↑   0 KB/s\n↓   0 KB/s");
   g_signal_connect (sample->label, "button-press-event", G_CALLBACK(plugin_clicked), sample);  
   gtk_widget_show (sample->label);
   gtk_box_pack_start (GTK_BOX (sample->hvbox), sample->label, FALSE, FALSE, 0);
