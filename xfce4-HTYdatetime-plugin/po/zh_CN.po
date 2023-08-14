@@ -1,0 +1,26 @@
+msgid "Sample"
+msgstr "示例"
+
+msgid "Plugin"
+msgstr "插件"
+
+msgid "Unable to open the following url: %s"
+msgstr "未能打开以下 url：%s"
+
+msgid "Sample Plugin"
+msgstr "示例插件"
+
+msgid "HTYdatetime"
+msgstr "海天鹰日期时间"
+
+msgid "Tooltip"
+msgstr "提示"
+
+msgid "This is a datetime plugin"
+msgstr "这是一个日期时间插件"
+
+msgid "Copyright © 2023 sonichy"
+msgstr "版权所有 © 2023 海天鹰"
+
+msgid "HTY date time plugin for the Xfce panel"
+msgstr "Xfce面板的海天鹰日期时间插件"
