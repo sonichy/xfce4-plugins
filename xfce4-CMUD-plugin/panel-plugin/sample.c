@@ -121,65 +121,6 @@ static void sample_read (SamplePlugin *sample)
 }
 
 
-static void on_calendar_realized(GtkWidget *widget, SamplePlugin *sample)
-{
-  gint x, y;
-  GtkWidget *parent;
-
-  parent = g_object_get_data(G_OBJECT(widget), "calendar-parent");
-  xfce_panel_plugin_position_widget(sample->plugin, widget, parent, &x, &y);
-  gtk_window_move(GTK_WINDOW(widget), x, y);
-}
-
-
-static gboolean close_calendar_window(SamplePlugin *sample)
-{
-  gtk_widget_destroy(sample->calendar);
-  sample->calendar = NULL;
-
-  //xfce_panel_plugin_block_autohide (XFCE_PANEL_PLUGIN (datetime->plugin), FALSE);
-  //gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(sample->label), FALSE);
-
-  return TRUE;
-}
-
-
-static GtkWidget * pop_calendar_window(SamplePlugin *sample)
-{
-  GtkWidget  *window;
-  GtkWidget  *calendar;
-  GtkWidget  *parent = sample->label;
-  GdkScreen  *screen;
-  GtkCalendarDisplayOptions display_options;
-
-  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_decorated(GTK_WINDOW(window), FALSE);
-  gtk_window_set_skip_taskbar_hint(GTK_WINDOW(window), TRUE);
-  gtk_window_set_skip_pager_hint(GTK_WINDOW(window), TRUE);
-  gtk_window_stick(GTK_WINDOW(window));
-  g_object_set_data(G_OBJECT(window), "calendar-parent", parent);
-
-  /* set screen number */
-  screen = gtk_widget_get_screen(parent);
-  gtk_window_set_screen(GTK_WINDOW(window), screen);
-
-  calendar = gtk_calendar_new();
-  display_options = GTK_CALENDAR_SHOW_HEADING | GTK_CALENDAR_SHOW_WEEK_NUMBERS | GTK_CALENDAR_SHOW_DAY_NAMES;
-  gtk_calendar_set_display_options(GTK_CALENDAR (calendar), display_options);
-  gtk_container_add (GTK_CONTAINER(window), calendar);
-
-  g_signal_connect_after(G_OBJECT(window), "realize", G_CALLBACK(on_calendar_realized), sample);
-  //g_signal_connect_swapped(G_OBJECT(window), "delete-event", G_CALLBACK(close_calendar_window), sample);
-  g_signal_connect_swapped(G_OBJECT(window), "focus-out-event", G_CALLBACK(close_calendar_window), sample);
-  gtk_widget_show_all(window);
-
-  //xfce_panel_plugin_block_autohide (XFCE_PANEL_PLUGIN (datetime->plugin), TRUE);
-  //gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(sample->label), TRUE);
-
-  return window;
-}
-
-
 static gboolean plugin_clicked(GtkWidget *widget, GdkEventButton *event, SamplePlugin *sample)
 {
   if (event->button != 1 || event->state & GDK_CONTROL_MASK)
@@ -188,13 +129,6 @@ static gboolean plugin_clicked(GtkWidget *widget, GdkEventButton *event, SampleP
   if (sample == NULL)
     return FALSE;
 
-/*
-  if (sample->calendar != NULL)  {
-    close_calendar_window(sample);
-  }  else  {
-    sample->calendar = pop_calendar_window(sample);
-  }
-*/
   g_spawn_command_line_sync("xfce4-taskmanager", NULL, NULL, NULL, NULL);
   return TRUE;
 }
@@ -343,7 +277,7 @@ void update (SamplePlugin *sample)
   sample->rb0 = sample->rb;
   sample->tb0 = sample->tb;
   //sprintf(text, "CPU: %d%%\nMEM: %d%%", sample->cpu_usage, mem_usage);
-  sprintf(text, "↑ %s/s\n↓ %s/s", B2G(ts), B2G(rs));
+  sprintf(text, "↑%s/s\n↓%s/s", B2G(ts), B2G(rs));
   sprintf(text1, "UPT: %s\nCPU: %d%%\nMEM: %s / %s = %d%%\n↑: %s\n↓: %s", hms, sample->cpu_usage, B2G(mu * 1024), B2G(sample->mt * 1024), mem_usage, B2G(sample->tb), B2G(sample->rb));
   //gtk_label_set_text (GTK_LABEL(sample->label), text);
   gtk_button_set_label (GTK_BUTTON(sample->label), text);
