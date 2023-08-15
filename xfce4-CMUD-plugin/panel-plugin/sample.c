@@ -205,17 +205,20 @@ void netdev(SamplePlugin *sample)
   sample->rb = 0;
   sample->tb = 0;
   fp = fopen("/proc/net/dev", "r");
-  while (!feof(fp)) {
+  while (1) {        
     fgets(s, sizeof(s), fp);
+    if (feof(fp)) {
+      fclose(fp);
+      break;
+    }
     if (i > 1) {
-      sscanf(s, "%s%Ld%Ld%Ld%Ld%Ld%Ld%Ld%Ld%Ld%Ld%Ld%Ld%Ld%Ld%Ld%Ld", itf,&r1,&r2,&r3,&r4,&r5,&r6,&r7,&r8,&t1,&t2,&t3,&t4,&t5,&t6,&t7,&t8);
-      //printf("%Ld, L%d\n", r1, t1);
+      sscanf(s, "%s%Ld%Ld%Ld%Ld%Ld%Ld%Ld%Ld%Ld%Ld%Ld%Ld%Ld%Ld%Ld%Ld", itf, &r1, &r2, &r3, &r4, &r5, &r6, &r7, &r8, &t1, &t2, &t3, &t4, &t5, &t6, &t7, &t8);      
+      //g_message("%d\t%s", i, s);
       sample->rb += r1;
       sample->tb += t1;
     }
     i++;
   }
-  fclose(fp); 
 }
 
 char *B2G (long long b)
@@ -361,6 +364,8 @@ static SamplePlugin *sample_new (XfcePanelPlugin *plugin)
   sample->i = 0;
   sample->rb = 0;
   sample->tb = 0;
+  sample->rb0 = 0;
+  sample->tb0 = 0;
   sample->timeout_id = g_timeout_add (1000, update_cb, sample);
 
   return sample;
