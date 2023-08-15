@@ -448,27 +448,21 @@ sample_construct (XfcePanelPlugin *plugin)
   xfce_panel_plugin_add_action_widget (plugin, sample->ebox);
 
   /* connect plugin signals */
-  g_signal_connect (G_OBJECT (plugin), "free-data",
-                    G_CALLBACK (sample_free), sample);
+  g_signal_connect (G_OBJECT (plugin), "free-data", G_CALLBACK (sample_free), sample);
 
-  g_signal_connect (G_OBJECT (plugin), "save",
-                    G_CALLBACK (sample_save), sample);
+  g_signal_connect (G_OBJECT (plugin), "save", G_CALLBACK (sample_save), sample);
 
-  g_signal_connect (G_OBJECT (plugin), "size-changed",
-                    G_CALLBACK (sample_size_changed), sample);
+  g_signal_connect (G_OBJECT (plugin), "size-changed", G_CALLBACK (sample_size_changed), sample);
 
-  g_signal_connect (G_OBJECT (plugin), "orientation-changed",
-                    G_CALLBACK (sample_orientation_changed), sample);
+  g_signal_connect (G_OBJECT (plugin), "orientation-changed", G_CALLBACK (sample_orientation_changed), sample);
 
   /* show the configure menu item and connect signal */
-  xfce_panel_plugin_menu_show_configure (plugin);
-  g_signal_connect (G_OBJECT (plugin), "configure-plugin",
-                    G_CALLBACK (sample_configure), sample);
+  //xfce_panel_plugin_menu_show_configure (plugin);
+  //g_signal_connect (G_OBJECT (plugin), "configure-plugin", G_CALLBACK (sample_configure), sample);
 
   /* show the about menu item and connect signal */
   xfce_panel_plugin_menu_show_about (plugin);
-  g_signal_connect (G_OBJECT (plugin), "about",
-                    G_CALLBACK (sample_about), NULL);
+  g_signal_connect (G_OBJECT (plugin), "about", G_CALLBACK (sample_about), NULL);
 }
 
 
